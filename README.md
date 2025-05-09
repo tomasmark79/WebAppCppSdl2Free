@@ -8,6 +8,7 @@ Another demo C++ project with the **SDL2** library. Wasm compatible. Added minin
 
 #### Todo
 
+ - Emscripten files system support
  - Add more awesome graphics parts
 
 ---

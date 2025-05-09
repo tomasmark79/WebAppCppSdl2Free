@@ -23,8 +23,6 @@
   #include <SDL2/SDL_mixer.h>
 #endif
 
-// #include <SDL2/SDL_ttf.h>
-
 // Public API
 
 namespace dotname {

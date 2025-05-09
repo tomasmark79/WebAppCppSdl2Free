@@ -26,8 +26,8 @@ namespace dotname {
                    << "╰➤ " << AssetContext::getAssetsPath () << std::endl;
       auto logo = std::ifstream (AssetContext::getAssetsPath () / "logo.png");
 
-      int screenWidth = 640 * 2;
-      int screenHeight = 480 * 2;
+      int screenWidth = 640;
+      int screenHeight = 480;
       if (createSdl2Window ("WebAppCppSdl2 Demo App by DotName", screenWidth, screenHeight) == 0) {
         ;
       }
@@ -53,47 +53,53 @@ namespace dotname {
       return -1;
     }
 
-    // SDL_Surface* window_surface = SDL_GetWindowSurface (window);
-
-    // if (!window_surface) {
-    //   std::cout << "Failed to get the surface from the window\n";
-    //   return -1;
-    // }
-
-    // SDL_UpdateWindowSurface (window);
-
     renderer = SDL_CreateRenderer (window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
       std::cout << "Failed to create renderer\n";
       return -1;
     }
+
+
+    SDL_Color textColor = { 255, 255, 255, 255 };
+    TTF_Init ();
+    TTF_Font* font = TTF_OpenFont ((AssetContext::getAssetsPath () / "fonts" / "SourceCodePro-Black.otf").c_str (), 24);
+    if (!font) {
+      std::cout << "Failed to load font\n";
+      return -1;
+    }
+
+    SDL_Surface* textSurface = TTF_RenderText_Solid (font, "WebAppCppSdl2 Demo App by DotName", textColor);
+    if (!textSurface) {
+      std::cout << "Failed to create text surface\n";
+      return -1;
+    }
+
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface (renderer, textSurface);
+    if (!textTexture) {
+      std::cout << "Failed to create text texture\n";
+      return -1;
+    }
+
+    SDL_Rect textRect;
+    textRect.x = (width - textSurface->w) / 2;
+    textRect.y = (height - textSurface->h) / 2;
+    textRect.w = textSurface->w;
+    textRect.h = textSurface->h;
+
     SDL_SetRenderDrawColor (renderer, 142, 142, 242, 255);
-
-    // write text to the window
-
     SDL_RenderClear (renderer);
+    // SDL_RenderPresent (renderer);
+
+    SDL_RenderCopy (renderer, textTexture, NULL, &textRect);
     SDL_RenderPresent (renderer);
-
-    // SDL_Color textColor = { 255, 255, 255, 255 };
-    // TTF_Init ();
-    // TTF_Font* font = TTF_OpenFont (AssetContext::getAssetsPath () / "fonts" / "arial.ttf", 24);
-    // if (!font) {
-    //   std::cout << "Failed to load font\n";
-    //   return -1;
-    // }
-    // SDL_Surface* textSurface = TTF_RenderText_Solid (font, "Hello, SDL2!", textColor);
-    // if (!textSurface) {
-    //   std::cout << "Failed to create text surface\n";
-    //   return -1;
-    // }
-    // SDL_Texture* textTexture = SDL_CreateTextureFromSurface (renderer, textSurface);
-    // if (!textTexture) {
-    //   std::cout << "Failed to create text texture\n";
-    //   return -1;
-    // }
-    
-
     SDL_Delay (5000);
+    SDL_FreeSurface (textSurface);
+    SDL_DestroyTexture (textTexture);
+    TTF_CloseFont (font);
+    SDL_DestroyRenderer (renderer);
+    SDL_DestroyWindow (window);
+    SDL_Quit ();    
+
 
     return 0;
   }

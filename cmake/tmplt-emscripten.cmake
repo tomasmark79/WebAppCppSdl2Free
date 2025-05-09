@@ -28,7 +28,7 @@ function(emscripten target isRequiredHtml)
         set_target_properties(${target} PROPERTIES COMPILE_FLAGS "${_compiler_flags}")
 
         # combine linker flags
-        set(_link_flags_sdl2 "-s USE_SDL=2")
+        set(_link_flags_sdl2 "-s ${_activate_sdl2_sdl2} -s ${_activate_sdl2_image} -s ${_activate_sdl2_ttf} -s ${_activate_sdl2_net} -s ${_activate_sdl2_mixer}")
 
         # pthread?
         if(ENABLE_EMSCRIPTEN_PTHREAD)
