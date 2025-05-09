@@ -62,7 +62,7 @@ namespace dotname {
 
     SDL_Color textColor = { 255, 255, 255, 255 };
     TTF_Init ();
-    TTF_Font* font = TTF_OpenFont ((AssetContext::getAssetsPath () / "fonts" / "SourceCodePro-Black.otf").c_str (), 24);
+    TTF_Font* font = TTF_OpenFont (std::string(AssetContext::getAssetsPath () / "fonts" / "SourceCodePro-Black.otf").c_str (), 24);
     if (!font) {
       std::cout << "Failed to load font\n";
       return -1;
