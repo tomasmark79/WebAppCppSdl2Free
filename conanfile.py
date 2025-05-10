@@ -27,6 +27,11 @@ class DotNameCppRecipe(ConanFile):
     def generate(self): 
         tc = CMakeToolchain(self)
         self.update_cmake_presets("CMakePresets.json")
+
+        if self.settings.os == "Emscripten":
+            print("Emscripten detected by Conan build system")
+            tc.variables["PLATFORM"] = "Web"
+            tc.variables["CMAKE_EXE_LINKER_FLAGS"] = "-s USE_GLFW=3"
         tc.generate()
         
     # Consuming recipe

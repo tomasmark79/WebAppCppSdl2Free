@@ -26,7 +26,6 @@
 // Public API
 
 namespace dotname {
-
   class Engine {
     const std::string libName_ = std::string ("Engine v.") + ENGINE_VERSION;
 
@@ -36,8 +35,28 @@ namespace dotname {
     ~Engine ();
 
   private:
-    SDL_Renderer* renderer;
-    int createSdl2Window (const std::string& title, int width, int height);
+    // Static Sdl2 attributes declaration
+    static int screenWidth_;
+    static int screenHeight_;
+    //static Texture2D textureDotNameLogo_;
+    //static Image imageLogo_;
+    //static Font fontTopText_;
+    static int textSize_;
+    static int spacing_;
+    //static Camera3D camera_;
+    //static Font fontFpsText_;
+    static SDL_Window* window_;
+    static SDL_Renderer* renderer_;
+    static SDL_Surface* textSurface_;
+    static SDL_Texture* textTexture_;
+    static SDL_Rect textRect_;
+
+    static int initWindowContent();
+    static int initSdl2libWindow (int width, int height, const std::string& title);
+    static int initSdl2lib ();
+    static void loopSdl2lib ();
+    static void updateDrawFrame ();
+    static bool WindowShouldClose ();
   };
 
 } // namespace dotname

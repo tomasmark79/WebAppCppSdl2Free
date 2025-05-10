@@ -1,15 +1,14 @@
-[![Linux](https://github.com/tomasmark79/WebAppCppSdl2Free/actions/workflows/linux.yml/badge.svg)](https://github.com/tomasmark79/WebAppCppSdl2Free/actions/workflows/linux.yml)
-[![MacOS](https://github.com/tomasmark79/WebAppCppSdl2Free/actions/workflows/macos.yml/badge.svg)](https://github.com/tomasmark79/WebAppCppSdl2Free/actions/workflows/macos.yml)
-[![Windows](https://github.com/tomasmark79/WebAppCppSdl2Free/actions/workflows/windows.yml/badge.svg)](https://github.com/tomasmark79/WebAppCppSdl2Free/actions/workflows/windows.yml)
+[![Linux](https://github.com/tomasmark79/WebAppCppRay1/actions/workflows/linux.yml/badge.svg)](https://github.com/tomasmark79/WebAppCppRay1/actions/workflows/linux.yml)
+[![MacOS](https://github.com/tomasmark79/WebAppCppRay1/actions/workflows/macos.yml/badge.svg)](https://github.com/tomasmark79/WebAppCppRay1/actions/workflows/macos.yml)
+[![Windows](https://github.com/tomasmark79/WebAppCppRay1/actions/workflows/windows.yml/badge.svg)](https://github.com/tomasmark79/WebAppCppRay1/actions/workflows/windows.yml)
 
-# WebAppCppSdl2Free
+# WebAppCppRay1
 
-Another demo C++ project with the **SDL2** library. Wasm compatible. Added mininal OOP wrapper. Could be used as a starter of more complex project. 
+Another demo C++ project with the **Raylib** library. Wasm compatible. Added OOP wrapper. Could be used as a starter of more complex project with the Railib framework. It is using Emscripten filesystem filled with the fonts and picture. 
 
-#### Todo
+[**Watch real C++ App on my Website NOW**](https://digitalspace.name/demoapp/)
 
- - Emscripten files system support
- - Add more awesome graphics parts
+<img src="assets/appdemo-ani.gif" alt="AnimatedGifOfWebAppCppRay1" width="40%">
 
 ---
 

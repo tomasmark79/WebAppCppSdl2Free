@@ -33,14 +33,12 @@ option(ENABLE_CCACHE "Enable ccache" ON)
 # === linting C/C++ code
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # === gtest
-option(ENABLE_GTESTS "Enable gtests" OFF)
-# === emscripten pthread
-option(ENABLE_EMSCRIPTEN_PTHREAD "Enable pthread for emscripten" ON)
+option(ENABLE_GTESTS "Enable gtests" ON)
 
 # ==============================================================================
 # Project attributes
 # ==============================================================================
-set(STANDALONE_NAME App)
+set(STANDALONE_NAME WebAppCppSdl2)
 string(TOLOWER "${STANDALONE_NAME}" STANDALONE_NAME_LOWER)
 set(STANDALONE_NAMESPACE dotname)
 project(
@@ -103,14 +101,6 @@ apply_hardening(${STANDALONE_NAME})
 apply_sanitizers(${STANDALONE_NAME})
 
 # ==============================================================================
-# Set target properties
-# ==============================================================================
-
-# Emscripten handler
-include(../cmake/tmplt-emscripten.cmake)
-emscripten(${STANDALONE_NAME} 1) # 1 = html target requested
-
-# ==============================================================================
 # Set linking
 # ==============================================================================
 target_link_libraries(${STANDALONE_NAME} PRIVATE dotname::Engine cxxopts)
@@ -122,10 +112,18 @@ set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION bin)
 install(TARGETS ${STANDALONE_NAME} RUNTIME DESTINATION bin)
 
 # ==============================================================================
-# Asset files processing
+# Asset files processing must be before Emscripten filesystem mounting
 # ==============================================================================
 include(../cmake/tmplt-assets.cmake)
 apply_assets_processing_standalone()
+
+# ==============================================================================
+# Set target properties
+# ==============================================================================
+
+# emscripten handler
+include(../cmake/tmplt-emscripten.cmake)
+emscripten(${STANDALONE_NAME} 1 1 "")
 
 # ==============================================================================
 # GTests processing via interface

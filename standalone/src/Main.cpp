@@ -4,5 +4,5 @@
 #include "AppCore.hpp"
 
 int main (int argc, const char* argv[]) {
-  return runApp (argc, argv);
+  return runWebAppCppSdl2 (argc, argv);
 }

@@ -4,11 +4,12 @@ cmake_policy(SET CMP0048 NEW) # project() command manages VERSION variables
 cmake_policy(SET CMP0076 NEW) # target_sources() command creates usage requirements
 cmake_policy(SET CMP0091 NEW) # MSVC runtime library flags are selected by an abstraction
 
-# MIT License Copyright (c) 2024-2025 Tomáš Mark
+# MIT License
+# Copyright (c) 2024-2025 Tomáš Mark
 
-# +-+-+-+-+-+-+-+
-# |l|i|b|r|a|r|y|
-# +-+-+-+-+-+-+-+
+#+-+-+-+-+-+-+-+
+#|l|i|b|r|a|r|y|
+#+-+-+-+-+-+-+-+
 
 # === shared libraries
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
@@ -125,9 +126,9 @@ apply_sanitizers(${LIBRARY_NAME})
 # Set target properties
 # ==============================================================================
 
-# Emscripten handler
+# emscripten handler
 include(cmake/tmplt-emscripten.cmake)
-emscripten(${LIBRARY_NAME} 0)
+emscripten(${LIBRARY_NAME} 0 1 "")
 
 # ==============================================================================
 # Set headers
@@ -143,8 +144,7 @@ target_include_directories(
 # ==============================================================================
 # Set compile options
 # ==============================================================================
-# note: generator expressions are evaluated during generation of the buildsystem, and not during
-# processing of CMakeLists.txt files
+# note: generator expressions are evaluated during generation of the buildsystem, and not during processing of CMakeLists.txt files
 target_compile_options(
     ${LIBRARY_NAME}
     PUBLIC "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive-;/W4>"
@@ -155,7 +155,8 @@ target_compile_options(
 )
 
 # ==============================================================================
-# Set compile features C++ version from Conan Profile has priority over this setting
+# Set compile features
+# C++ version from Conan Profile has priority over this setting
 # ==============================================================================
 target_compile_features(${LIBRARY_NAME} PUBLIC cxx_std_17)
 set(CMAKE_CXX_STANDARD 17)
@@ -165,7 +166,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # ==============================================================================
 # Set linking
 # ==============================================================================
-target_link_libraries(${LIBRARY_NAME} PUBLIC fmt::fmt)
+target_link_libraries(
+    ${LIBRARY_NAME}
+    PUBLIC fmt::fmt
+)
 
 if(NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "Emscripten")
     target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2main SDL2::SDL2)
@@ -193,27 +197,28 @@ packageProject(
     INCLUDE_HEADER_PATTERN "*.h;*.hpp;*.hh;*.hxx"
     # semicolon separated list of the project's dependencies
     DEPENDENCIES "fmt#11.1.0;CPMLicenses.cmake@0.0.7"
-    # (optional) create a header containing the version info Note: that the path to headers should
-    # be lowercase, but is not enforced
+    # (optional) create a header containing the version info
+    # Note: that the path to headers should be lowercase, but is not enforced
     VERSION_HEADER "${LIBRARY_NAME}/version.h"
     # (optional) create an export header using GenerateExportHeader module
     EXPORT_HEADER "${LIBRARY_NAME}/export.h"
     # (optional) install your library with a namespace (Note: do NOT add extra '::')
     NAMESPACE ${LIBRARY_NAMESPACE}
-    # (optional) define the project's version compatibility, defaults to `AnyNewerVersion` supported
-    # values: `AnyNewerVersion|SameMajorVersion|SameMinorVersion|AppVersion`
+    # (optional) define the project's version compatibility, defaults to `AnyNewerVersion`
+    # supported values: `AnyNewerVersion|SameMajorVersion|SameMinorVersion|WebAppCppSdl2Version`
     COMPATIBILITY AnyNewerVersion
     # (optional) option to disable the versioning of install destinations
     DISABLE_VERSION_SUFFIX YES
-    # (optional) option to ignore target architecture for package resolution defaults to YES for
-    # header only (i.e. INTERFACE) libraries
+    # (optional) option to ignore target architecture for package resolution
+    # defaults to YES for header only (i.e. INTERFACE) libraries
     ARCH_INDEPENDENT YES
     # (optional) option to generate CPack variables
-    CPACK YES
-          # (optional) relative install directory for runtimes: bins, libs, archives by default libs
-          # will be installed to <...>/lib/<packagename-version>/ / - means relative to <...>/lib,
-          # i.e. install libs to <...>/lib/, bins to <...>/bin/, etc
-          RUNTIME_DESTINATION /)
+    CPACK
+        YES
+        # (optional) relative install directory for runtimes: bins, libs, archives
+        # by default libs will be installed to <...>/lib/<packagename-version>/
+        # / - means relative to <...>/lib, i.e. install libs to <...>/lib/, bins to <...>/bin/, etc
+        RUNTIME_DESTINATION /)
 
 # ==============================================================================
 # Add missing installation exports

@@ -19,8 +19,8 @@
 
 using namespace DotNameUtils;
 
-namespace AppContext {
-  constexpr char standaloneName[] = "App";
+namespace WebAppCppSdl2Context {
+  constexpr char standaloneName[] = "WebAppCppSdl2";
   const std::filesystem::path standalonePath
       = PathUtils::getParentPath (PathUtils::getStandalonePath ());
   constexpr std::string_view utilsAssetPath = UTILS_ASSET_PATH;
@@ -33,7 +33,7 @@ std::unique_ptr<dotname::Engine> uniqueLib;
 
 int handlesArguments (int argc, const char* argv[]) {
   try {
-    auto options = std::make_unique<cxxopts::Options> (argv[0], AppContext::standaloneName);
+    auto options = std::make_unique<cxxopts::Options> (argv[0], WebAppCppSdl2Context::standaloneName);
     options->positional_help ("[optional args]").show_positional_help ();
     options->set_width (80);
     options->set_tab_expansion ();
@@ -50,13 +50,13 @@ int handlesArguments (int argc, const char* argv[]) {
     }
 
     if (result["log2file"].as<bool> ()) {
-      LOG.enableFileLogging (std::string (AppContext::standaloneName) + ".log");
+      LOG.enableFileLogging (std::string (WebAppCppSdl2Context::standaloneName) + ".log");
       LOG_D_STREAM << "Logging to file enabled [-2]" << std::endl;
     }
 
     if (!result.count ("omit")) {
       // uniqueLib = std::make_unique<dotname::Engine> ();
-      uniqueLib = std::make_unique<dotname::Engine> (AppContext::assetsPath);
+      uniqueLib = std::make_unique<dotname::Engine> (WebAppCppSdl2Context::assetsPath);
     } else {
       LOG_D_STREAM << "Loading library omitted [-1]" << std::endl;
     }
@@ -95,11 +95,11 @@ int printAssets (const std::filesystem::path& assetsPath) {
   return 0;
 }
 
-int runApp (int argc, const char* argv[]) {
+int runWebAppCppSdl2 (int argc, const char* argv[]) {
 
   LOG.noHeader (true);
   LOG.setSkipLine (false);
-  LOG_I_STREAM << "Starting " << AppContext::standaloneName << " ..." << std::endl;
+  LOG_I_STREAM << "Starting " << WebAppCppSdl2Context::standaloneName << " ..." << std::endl;
 
 #ifdef EMSCRIPTEN
   LOG_I_STREAM << "╰➤ C++ Running in Emscripten environment" << std::endl;
@@ -118,6 +118,6 @@ int runApp (int argc, const char* argv[]) {
   uniqueLib = nullptr;
 
   // bye
-  LOG_I_STREAM << "Sucessfully exited " << AppContext::standaloneName << std::endl;
+  LOG_I_STREAM << "Sucessfully exited " << WebAppCppSdl2Context::standaloneName << std::endl;
   return 0;
 }
